@@ -33,7 +33,7 @@ interface IssuesResponse {
   user: {
     login: string
   }
-  url: string
+  html_url: string
   created_at: Date
   body: string
   comments: number
@@ -67,7 +67,6 @@ export function IssuesContextProvider({ children }: IssuesContextProviderProps) 
   }, [])
 
   async function getIssues(query?: string) {
-    console.log(query)
     if (!query) {
       query = ''
     } else {
@@ -80,7 +79,7 @@ export function IssuesContextProvider({ children }: IssuesContextProviderProps) 
         id: issues.id,
         title: issues.title,
         login: issues.user.login,
-        url: issues.url,
+        url: issues.html_url,
         created_at: new Date(issues.created_at),
         body: issues.body,
         comments: issues.comments,

@@ -34,7 +34,7 @@ export function Article() {
           </Button>
 
           <Button>
-            <a href="/">
+            <a href={issue?.url} target="_blank" rel="noreferrer">
               ver no github
               <i className="fa-solid fa-arrow-up-right-from-square" />
             </a>
