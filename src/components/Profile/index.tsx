@@ -4,19 +4,23 @@ import {
   HeaderInfo,
   SocialContainer,
   TitleContainer,
-
 } from './styles'
+import { UserInfo } from '../../context/IssuesContext'
 
-export function Profile() {
+interface ProfileProps {
+  user: UserInfo
+}
+
+export function Profile({ user }: ProfileProps) {
   return (
     <HeaderContainer>
       <HeaderContent>
-        <img src="https://github.com/guilhermecandidosantos.png" alt="" />
+        <img src={user.avatar_url} alt="" />
         <HeaderInfo>
           <TitleContainer>
-            <h1>Guilherme Santos</h1>
+            <h1>{user.name}</h1>
             <div>
-              <a href="">
+              <a href={user.url} target="_blank" rel="noreferrer">
                 github
                 <i className="fa-solid fa-arrow-up-right-from-square" />
               </a>
@@ -24,15 +28,15 @@ export function Profile() {
             </div>
           </TitleContainer>
 
-          <p>Tristique volutpat pulvinar vel massa, pellentesque egestas.
-            Eu viverra massa quam dignissim aenean malesuada suscipit.
-            Nunc, volutpat pulvinar vel mass.
-          </p>
+          <p>{user.bio}</p>
 
           <SocialContainer>
-            <span><i className="fa-brands fa-github" />github</span>
-            <span><i className="fa-solid fa-building" />Rocketseat</span>
-            <span><i className="fa-solid fa-user-group" />32 Seguidores</span>
+            <span><i className="fa-brands fa-github" />{user.login}</span>
+            {user.company && <span><i className="fa-solid fa-building" />{user.company}</span>}
+            {user.followers > 0 &&
+              <span>
+                <i className="fa-solid fa-user-group" />{user.followers} Seguidores
+              </span>}
           </SocialContainer>
         </HeaderInfo>
       </HeaderContent>

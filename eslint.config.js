@@ -11,6 +11,7 @@ export default [
       '@stylistic/max-len': ['error', {
         code: 100,
         ignoreComments: true,
+        ignoreTemplateLiterals: true,
       }],
     },
   },

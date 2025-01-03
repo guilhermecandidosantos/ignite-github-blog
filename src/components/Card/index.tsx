@@ -1,16 +1,32 @@
 import { CardContainer, CardTitle, PreviewContent } from './styles'
+import { Issues } from '../../context/IssuesContext'
+import Markdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+import { useNavigate } from 'react-router'
+import { formateDate } from '../../utils/format'
 
-export function Card() {
-  const text = "data structures, but these often differ from one language to another. This article attempts to list the built-in data structures available in JavaScript and what properties they have. Thesecan be used to build other data structures.Wherever possible, comparisons with other languages are drawn.Dynamic typingJavaScript is a loosely typed and dynamic language. Variables in JavaScript are not directlyassociated with any particular value type, and any variablecan be assigned (and re-assigned) values of all types:let foo = 42foo = 'bar'"
+interface CardProps {
+  issue: Issues
+}
+
+export function Card({ issue }: CardProps) {
+  const navigate = useNavigate()
+
+  function handleNavigateToIssue() {
+    navigate(`/article/${issue.id}`)
+  }
+
   return (
-    <CardContainer>
+    <CardContainer onClick={() => handleNavigateToIssue()}>
       <CardTitle>
-        <h1>JavaScript data types and data structures</h1>
-        <span>Há 1 dia</span>
+        <h1>{issue.title}</h1>
+        <span>{formateDate(issue.created_at)}</span>
       </CardTitle>
 
       <PreviewContent>
-        {text}
+        <Markdown rehypePlugins={[rehypeRaw]}>
+          {issue.body}
+        </Markdown>
       </PreviewContent>
     </CardContainer>
   )

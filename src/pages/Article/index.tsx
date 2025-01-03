@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import {
   ArticleContainer,
   ArticleTitle,
@@ -8,9 +9,18 @@ import {
   Title,
 
 } from './styles'
-import { NavLink } from 'react-router'
+import { NavLink, useParams } from 'react-router'
+import { IssuesContext } from '../../context/IssuesContext'
+import { formateDate } from '../../utils/format'
+import Markdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 
 export function Article() {
+  const { id } = useParams()
+  const { issues } = useContext(IssuesContext)
+
+  const issue = issues.find((issue) => issue.id === Number(id))
+
   return (
     <ArticleContainer>
       <ArticleTitle>
@@ -32,31 +42,29 @@ export function Article() {
           </Button>
         </ButtonArticle>
 
-        <Title>JavaScript data types and data structures</Title>
+        <Title>{issue?.title}</Title>
 
         <InfoArticle>
           <span>
             <i className="fa-brands fa-github" />
-            cameronwll
+            {issue?.login}
           </span>
           <span>
             <i className="fa-solid fa-calendar-day" />
-            Há 1 dia
+            {formateDate(issue!.created_at)}
           </span>
           <span>
             <i className="fa-solid fa-comment" />
-            5 comentarios
+            {issue?.comments} comentarios
           </span>
         </InfoArticle>
       </ArticleTitle>
 
       <ContentArticle>
-        <p>Programming languages all have built-in data
-          structures, but these often differ from one language to another.
-          This article attempts to list the built-in data structures available
-          in JavaScript and what properties they have. These can be used to
-          build other data structures. Wherever possible, comparisons with
-          other languages are drawn.
+        <p>
+          <Markdown rehypePlugins={[rehypeRaw]}>
+            {issue?.body}
+          </Markdown>
         </p>
       </ContentArticle>
     </ArticleContainer>
